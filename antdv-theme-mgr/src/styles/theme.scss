@@ -1,0 +1,36 @@
+@import "variables.module";
+//模式切换
+$modes: (
+        light: (
+                bgColor: #fff,
+                infoColor: #000
+        ),
+        dark: (
+                bgColor: #000,
+                infoColor: #fff
+        )
+);
+
+$curMode: light;
+$curTheme: red;
+@mixin useTheme() {
+  @each $key1, $value1 in $modes {
+    $curMode: $key1 !global;
+    @each $key2, $value2 in $colors {
+      $curTheme: $key2 !global;
+      html[data-dark='#{$key1}'][data-theme='#{$key2}'] & {
+        @content;
+      }
+    }
+  }
+}
+
+@function getModeVar($key) {
+  $modeMap: map-get($modes, $curMode);
+  @return map-get($modeMap, $key);
+}
+
+@function getColor($key) {
+  $themeMap: map-get($colors, $curTheme);
+  @return map-get($themeMap, $key);
+}

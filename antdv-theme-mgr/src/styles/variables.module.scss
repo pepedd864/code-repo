@@ -1,0 +1,48 @@
+$red: #F5222D;
+$orange: #FA541C;
+$yellow: #FAAD14;
+$cyan: #13C2C2;
+$green: #52C41A;
+$blue: #2F54EB;
+$purple: #722ED1;
+
+$colors: (
+        red: (
+                primary: $red,
+                info: $red,
+        ),
+        orange: (
+                primary: $orange,
+                info: $orange,
+        ),
+        yellow: (
+                primary: $yellow,
+                info: $yellow,
+        ),
+        cyan: (
+                primary: $cyan,
+                info: $cyan,
+        ),
+        green: (
+                primary: $green,
+                info: $green,
+        ),
+        blue: (
+                primary: $blue,
+                info: $blue,
+        ),
+        purple: (
+                primary: $purple,
+                info: $purple,
+        )
+);
+
+:export {
+  red: $red;
+  orange: $orange;
+  yellow: $yellow;
+  cyan: $cyan;
+  green: $green;
+  blue: $blue;
+  purple: $purple;
+}

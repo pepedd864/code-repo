@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="icon" type="image/svg+xml" href="/vite.svg"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Vite + Vue</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="loading">
+    <div class="loader">
+        <div class="box box-1">
+            <div class="side-left"></div>
+            <div class="side-right"></div>
+            <div class="side-top"></div>
+        </div>
+        <div class="box box-2">
+            <div class="side-left"></div>
+            <div class="side-right"></div>
+            <div class="side-top"></div>
+        </div>
+        <div class="box box-3">
+            <div class="side-left"></div>
+            <div class="side-right"></div>
+            <div class="side-top"></div>
+        </div>
+        <div class="box box-4">
+            <div class="side-left"></div>
+            <div class="side-right"></div>
+            <div class="side-top"></div>
+        </div>
+    </div>
+</div>
+<div id="app"></div>
+<script>
+  // 设置禁止元素选中
+  document.onselectstart = function () {
+    return false
+  }
+
+  // 自定义开始加载事件
+  const startEvent = new CustomEvent('loading');
+
+  // 自定义加载完成事件
+  const loadEvent = new CustomEvent('loaded');
+
+  // 开始加载
+  document.addEventListener('loading', function () {
+    let loadingDom = document.querySelector('#loading');
+    loadingDom.style.opacity = 1;
+    loadingDom.style.display = 'flex';
+    loadingDom.addEventListener('transitionend', function () {
+      if (loadingDom.style.opacity === '1') {
+        loadingDom.style.display = 'flex';
+      }
+    })
+  })
+
+  // 加载完成
+  document.addEventListener('loaded', function () {
+    let loadingDom = document.querySelector('#loading');
+    loadingDom.style.opacity = 0;
+    loadingDom.addEventListener('transitionend', function () {
+      if (loadingDom.style.opacity === '0') {
+        loadingDom.style.display = 'none';
+      }
+    })
+  })
+
+  // document.querySelector('#loading').addEventListener('transitionend', function () {
+  //   let loadingDom = document.querySelector('#loading');
+  //   if (loadingDom.style.opacity === '0') {
+  //     loadingDom.style.display = 'none';
+  //   }
+  // })
+</script>
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>

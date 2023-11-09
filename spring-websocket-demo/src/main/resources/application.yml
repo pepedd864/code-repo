@@ -1,0 +1,9 @@
+server:
+  port: 7090
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/employee?useSSL=false
+    username: root
+    password: 123456

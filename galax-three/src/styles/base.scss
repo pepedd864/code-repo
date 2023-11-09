@@ -1,0 +1,33 @@
+*{
+  padding: 0;
+  margin: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+
+// scoller
+::-webkit-scrollbar {
+  background: transparent;
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 32px;
+}
+
+::-webkit-scrollbar-track {
+  //background-color: #ffffff;
+  background: transparent;
+  border-radius: 32px;
+}
