@@ -2,7 +2,5 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/duyi-web-practice" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/vue-rabbit-mall" vcs="Git" />
   </component>
 </project>
