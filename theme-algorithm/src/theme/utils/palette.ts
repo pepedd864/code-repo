@@ -108,11 +108,12 @@ export function getAntDPaletteColorByIndex(color: AnyColor, index: Theme.ColorIn
 
 /**
  * 通过颜色获得沉浸式文本色
- * @param color
+ * @param curColor
+ * @param primaryColor
  */
-export function getImmersiveColorByColor(color: AnyColor) {
-    const mixColorHex = getLuminance(color) < 45 ? '#ffffff' : '#000000';
-    return getHex(mixColor(mixColorHex, color, 0.35));
+export function getImmersiveColorByColor(curColor: string, primaryColor: string) {
+    const mixColorHex = getLuminance(curColor) < 45 ? '#ffffff' : '#000000';
+    return getHex(mixColor(mixColorHex, primaryColor, 0.35));
 }
 
 /**

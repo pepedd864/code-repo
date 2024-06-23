@@ -72,12 +72,12 @@ function createThemePaletteColors(colors: Theme.ThemeColor) {
         if (key === primaryColorKey) {
             colorMap.forEach((hex, number) => {
                 colorPaletteVar[`${key}-${number}`] = hex;
-                textColorPaletteVar[`${immersiveTextKey}-${number}`] = getImmersiveColorByColor(hex);
+                textColorPaletteVar[`${immersiveTextKey}-${number}`] = getImmersiveColorByColor(hex, colorMap.get(500)!);
             });
 
             darkColorMap.forEach((hex, number) => {
                 darkColorPaletteVar[`${key}-${number}`] = hex;
-                darkTextColorPaletteVar[`${immersiveTextKey}-${number}`] = getImmersiveColorByColor(hex);
+                darkTextColorPaletteVar[`${immersiveTextKey}-${number}`] = getImmersiveColorByColor(hex, darkColorMap.get(500)!);
             });
         }
     });
