@@ -4,7 +4,7 @@
  * @date 2024/6/23
  */
 
-import {getColorPalette} from "./utils/palette.ts";
+import {getColorPalette, getImmersiveColorByColor} from "./utils/palette.ts";
 import {themeSetting} from "./setting.ts";
 import {themeVars} from "./vars.ts";
 import {getRgb} from "./utils/colord.ts";
@@ -63,33 +63,21 @@ function createThemePaletteColors(colors: Theme.ThemeColor) {
     const immersiveTextKey = 'immersive-text';
 
     colorKeys.forEach(key => {
-        const {
-            colorMap,
-            textColorMap
-        } = getColorPalette(false, colors[key]!);
-        const {
-            colorMap: darkColorMap,
-            textColorMap: darkTextColorMap
-        } = getColorPalette(true, colors[key]!);
+        const colorMap = getColorPalette(false, colors[key]!);
+        const darkColorMap = getColorPalette(true, colors[key]!);
 
         colorPaletteVar[key] = colorMap.get(500)!
         darkColorPaletteVar[key] = darkColorMap.get(500)!
 
-        colorMap.forEach((hex, number) => {
-            colorPaletteVar[`${key}-${number}`] = hex;
-        });
-
-        darkColorMap.forEach((hex, number) => {
-            darkColorPaletteVar[`${key}-${number}`] = hex;
-        });
-
         if (key === primaryColorKey) {
-            textColorMap.forEach((hex, number) => {
-                textColorPaletteVar[`${immersiveTextKey}-${number}`] = hex;
+            colorMap.forEach((hex, number) => {
+                colorPaletteVar[`${key}-${number}`] = hex;
+                textColorPaletteVar[`${immersiveTextKey}-${number}`] = getImmersiveColorByColor(hex);
             });
 
-            darkTextColorMap.forEach((hex, number) => {
-                darkTextColorPaletteVar[`${immersiveTextKey}-${number}`] = hex;
+            darkColorMap.forEach((hex, number) => {
+                darkColorPaletteVar[`${key}-${number}`] = hex;
+                darkTextColorPaletteVar[`${immersiveTextKey}-${number}`] = getImmersiveColorByColor(hex);
             });
         }
     });

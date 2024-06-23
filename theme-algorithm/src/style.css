@@ -1,0 +1,25 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background: var(--background-color);
+    color: var(--text-color);
+    transition: all 0.3s;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+.box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    height: 70px;
+    transition: 0.3s;
+    border: 1px solid var(--text-color);
+}

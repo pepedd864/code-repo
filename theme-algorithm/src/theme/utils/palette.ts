@@ -44,18 +44,14 @@ const darkColorMap = [
  */
 export function getColorPalette(darkMode: boolean, color: string) {
     const colorMap = new Map<Theme.ColorPaletteNumber, string>();
-    const textColorMap = new Map<Theme.ColorPaletteNumber, string>();
-
-    const {colors, texts} = getAntDColorPalette(color, darkMode);
-
+    const colors = getAntDColorPalette(color, darkMode);
     const colorNumbers: Theme.ColorPaletteNumber[] = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
 
     colorNumbers.forEach((number, index) => {
         colorMap.set(number, colors[index]);
-        textColorMap.set(number, texts[index]);
     })
 
-    return {colorMap, textColorMap}
+    return colorMap
 }
 
 /**
@@ -70,26 +66,14 @@ export function getAntDColorPalette(color: AnyColor, darkTheme = false, darkThem
 
     const patterns = indexes.map(index => getAntDPaletteColorByIndex(color, index));
 
-    // 获得文本颜色
-    const textPattern: string[] = patterns.map((item) => {
-        const mixColorHex = getLuminance(item) < 45 ? '#ffffff' : '#000000';
-        return mixColor(mixColorHex, item, 0.35);
-    }).map(item => getHex(item))
-
     // 暗色模式
     if (darkTheme) {
-        const darkPatterns = darkColorMap.map(({index, opacity}) => {
+        return darkColorMap.map(({index, opacity}) => {
             return mixColor(darkThemeMixColor, patterns[index], opacity);
         }).map(item => getHex(item));
-        // 获得文本颜色
-        const darkTextPattern: string[] = darkPatterns.map((item) => {
-            const mixColorHex = getLuminance(item) < 45 ? '#ffffff' : '#000000';
-            return mixColor(mixColorHex, item, 0.35);
-        }).map(item => getHex(item))
-        return {colors: darkPatterns, texts: darkTextPattern};
     }
 
-    return {colors: patterns, texts: textPattern};
+    return patterns;
 }
 
 /**
@@ -120,6 +104,15 @@ export function getAntDPaletteColorByIndex(color: AnyColor, index: Theme.ColorIn
     };
 
     return getHex(newHsv);
+}
+
+/**
+ * 通过颜色获得沉浸式文本色
+ * @param color
+ */
+export function getImmersiveColorByColor(color: AnyColor) {
+    const mixColorHex = getLuminance(color) < 45 ? '#ffffff' : '#000000';
+    return getHex(mixColor(mixColorHex, color, 0.35));
 }
 
 /**
