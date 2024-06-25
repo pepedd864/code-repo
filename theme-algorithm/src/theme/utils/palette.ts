@@ -112,8 +112,8 @@ export function getAntDPaletteColorByIndex(color: AnyColor, index: Theme.ColorIn
  * @param primaryColor
  */
 export function getImmersiveColorByColor(curColor: string, primaryColor: string) {
-    const mixColorHex = getLuminance(curColor) < 45 ? '#ffffff' : '#000000';
-    return getHex(mixColor(mixColorHex, primaryColor, 0.35));
+    const mixColorHex = getLuminance(curColor) < 65 ? '#ffffff' : '#000000';
+    return getHex(mixColor(mixColorHex, primaryColor, 0.5));
 }
 
 /**
