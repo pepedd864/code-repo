@@ -88,7 +88,7 @@ async function spiltFile(file) {
 async function uploadPiece(
   fileInfo,
   needs,
-  paused = false,
+  paused,
   updateFn = () => null,
   callback = () => null) {
   // 如果没有传入 needs 或者 paused 直接停止
@@ -119,5 +119,27 @@ async function uploadPiece(
   // 更新进度
   const progress = (1 - needs.length / fileInfo.chunks.length) * 100
   updateFn(progress);
-  await uploadPiece(fileInfo, needs, false, updateFn, callback);
+  await uploadPiece(fileInfo, needs, paused, updateFn, callback);
+}
+
+export default class BreakpointUpload {
+  constructor(file) {
+    this.file = file
+    this.paused = false;
+    this.needs = [];
+    this.fileInfo = null;
+
+  }
+
+  pause() {
+
+  }
+
+}
+
+class PieceUpload{
+  constructor() {
+
+  }
+
 }

@@ -46,6 +46,10 @@
     await upload(resp.data)
   }
 
+  pauseBtn.onclick = function () {
+    pause = !pause
+    pauseBtn.innerHTML = pause ? '继续上传' : '暂停上传'
+  }
 
   /**
    * 与后端握手，获取文件上传进度
@@ -75,7 +79,7 @@
     await uploadPiece(
       cutFileInfo,
       needs,
-      false,
+      pause,
       (progress) => {
         status.innerHTML = `上传进度：${progress.toFixed(2)}%`
       }, () => {
