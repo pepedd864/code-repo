@@ -12,18 +12,21 @@
 <button class="upload-btn">上传文件</button>
 <button class="pause-btn">暂停上传</button>
 <script src="https://cdn.bootcdn.net/ajax/libs/spark-md5/3.0.0/spark-md5.js"></script>
-<script src="upload.js"></script>
 <script type="module">
+  import BreakpointUpload from "./upload.js";
+
   const status = document.querySelector('.status .inner')
   const fileInput = document.querySelector('input[type="file"]')
   const uploadBtn = document.querySelector('button.upload-btn')
   const pauseBtn = document.querySelector('button.pause-btn')
+  let breakpointUpload
+  let piecesUpload
   let cutFileInfo
-  let pause = false
   fileInput.onchange = function (e) {
     status.innerHTML = '已选择文件'
     const file = e.target.files[0]
-    spiltFile(file).then((res) => {
+    breakpointUpload = new BreakpointUpload(file)
+    breakpointUpload.spilt().then((res) => {
       cutFileInfo = res
       status.innerHTML = `文件已处理, 耗时${res.time}ms`
     })
@@ -34,7 +37,7 @@
       return
     }
     status.innerHTML = '开始检查文件进度'
-    const resp = await handShake()
+    const resp = await breakpointUpload.handShake(cutFileInfo)
     if (typeof resp.data === 'string') {
       status.innerHTML = `文件已上传, 链接：${resp.data}`
       return
@@ -43,50 +46,28 @@
     await new Promise(resolve => setTimeout(resolve, 1000))
     const progress = 1 - (resp.data.length / cutFileInfo.chunks.length)
     status.innerHTML = `${progress === 0 ? '文件未上传' : `已上传${(progress * 100).toFixed(2)}%`}`
-    await upload(resp.data)
-  }
-
-  pauseBtn.onclick = function () {
-    pause = !pause
-    pauseBtn.innerHTML = pause ? '继续上传' : '暂停上传'
-  }
-
-  /**
-   * 与后端握手，获取文件上传进度
-   * @returns {Promise<any>}
-   */
-  async function handShake() {
-    return await fetch('http://localhost:8000/api/upload/handshake', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        fileId: cutFileInfo.fileId,
-        ext: cutFileInfo.ext,
-        chunkIds: cutFileInfo.chunks.map(it => it.id)
-      })
-    }).then(resp => resp.json())
-  }
-
-  /**
-   * 断点上传文件
-   * @param needs
-   * @returns {Promise<void>}
-   */
-  async function upload(needs) {
-    // 上传文件
-    await uploadPiece(
+    piecesUpload = breakpointUpload.upload(
+      resp.data,
       cutFileInfo,
-      needs,
-      pause,
       (progress) => {
         status.innerHTML = `上传进度：${progress.toFixed(2)}%`
       }, () => {
         status.innerHTML = '上传文件成功'
       }
     )
+    piecesUpload.start()
   }
+
+  pauseBtn.onclick = function () {
+    if (!piecesUpload.getState()) {
+      piecesUpload.pause()
+      pauseBtn.innerHTML = '继续上传'
+    } else {
+      piecesUpload.start()
+      pauseBtn.innerHTML = '暂停上传'
+    }
+  }
+
 </script>
 </body>
 </html>
